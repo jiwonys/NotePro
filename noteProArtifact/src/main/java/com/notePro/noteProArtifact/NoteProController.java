@@ -21,6 +21,17 @@ public class NoteProController {
 
 	//flag will be replaced with error checks in the future
 	
+	@GetMapping("/load")
+	@ResponseBody
+	public String load() {
+		boolean flag = true;
+		if(flag) {
+		return "successfully loaded";
+		}else {
+			return "failed";
+		}
+	}
+	
 	@GetMapping("/createSticky")
 	@ResponseBody
 	public String createSticky() {
