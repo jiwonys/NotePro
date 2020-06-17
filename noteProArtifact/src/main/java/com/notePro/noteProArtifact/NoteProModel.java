@@ -9,6 +9,4 @@ public class NoteProModel {
 	public String save() {
 		return "successful";
 	}
-	
-	public String
 }
