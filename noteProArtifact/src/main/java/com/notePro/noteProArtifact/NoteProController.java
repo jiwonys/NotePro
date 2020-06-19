@@ -1,5 +1,6 @@
 package com.notePro.noteProArtifact;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,8 @@ public class NoteProController {
 	@Value("${spring.application.name}")
 	String applicationName;
 
+	NoteProModel noteProModel = new NoteProModel();
+	
 	@GetMapping("/")
 	@ResponseBody
 	public String homePage(Model model) {
@@ -37,7 +40,7 @@ public class NoteProController {
 	public String createSticky() {
 		//create a number after loading from text file
 		boolean flag = true;
-		if (flag) {
+		if (noteProModel.save(1, "red", 3, 55, "HELLO AND WELCOME TO THE STICKY").equals("successful")) {
 			return "successful";
 		}else {
 			return "failed";
