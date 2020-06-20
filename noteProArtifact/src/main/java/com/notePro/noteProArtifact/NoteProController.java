@@ -38,9 +38,10 @@ public class NoteProController {
 	@GetMapping("/createSticky")
 	@ResponseBody
 	public String createSticky() {
+		StickyEntry stick = new StickyEntry(1, "RED", 23, 42, "TEXT IS HERE");
 		//create a number after loading from text file
 		boolean flag = true;
-		if (noteProModel.save(1, "red", 3, 55, "HELLO AND WELCOME TO THE STICKY").equals("successful")) {
+		if (noteProModel.save(stick).equals("successful")) {
 			return "successful";
 		}else {
 			return "failed";
