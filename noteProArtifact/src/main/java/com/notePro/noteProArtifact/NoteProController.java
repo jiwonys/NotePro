@@ -17,9 +17,6 @@ public class NoteProController {
 	@Value("${spring.application.name}")
 	String applicationName;
 
-	@Autowired
-	List stickyEntryList = new ArrayList<StickyEntry>();
-	
 	NoteProModel noteProModel = new NoteProModel();
 	
 	@GetMapping("/")
@@ -34,6 +31,7 @@ public class NoteProController {
 	@ResponseBody
 	public String load() {
 		boolean flag = true;
+		noteProModel.load();
 		if(flag) {
 		return "successfully loaded";
 		}else {
@@ -44,9 +42,13 @@ public class NoteProController {
 	@GetMapping("/createSticky")
 	@ResponseBody
 	public String createSticky() {
+		List stickyEntryList = new ArrayList<StickyEntry>();
+
 		StickyEntry stick = new StickyEntry(1, "RED", 23, 42, "TEXT IS HERE");
+		stickyEntryList.add(stick);
 		//create a number after loading from text file
 		boolean flag = true;
+		noteProModel.addToSaveFile(stickyEntryList);
 		if (noteProModel.addToSaveFile(stickyEntryList).equals("successful")) {
 			return "successful";
 		}else {

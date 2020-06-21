@@ -1,5 +1,6 @@
 package com.notePro.noteProArtifact;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,34 +14,40 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.tomcat.jni.File;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class NoteProModel {
 
-	private String path;
-	private boolean append_to_file = false;
-
-	public String load() {
+	public List<StickyEntry> load() {
 		JSONParser jsonParser = new JSONParser();
+		JSONObject obj;
+		ArrayList<JSONObject> json = new ArrayList<JSONObject>();
+		String line = null;
 
-		try (FileReader reader = new FileReader(
-				"C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json")) {
-			Object obj = jsonParser.parse(reader);
+		List<StickyEntry> loadedStickyEntryList = new ArrayList<StickyEntry>();
+
+		try {
+
+			FileReader reader = new FileReader("C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json");
+			BufferedReader bufferedReader = new BufferedReader(reader);
+			while ((line = bufferedReader.readLine()) != null) {
+				obj = (JSONObject) new JSONParser().parse(line);
+				json.add(obj);
+				System.out.println((String) obj.get("layer") + ":" + (String) obj.get("xCoord"));
+			}
+
+	        bufferedReader.close();         
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			return "unsuccessful";
 		} catch (IOException e) {
 			e.printStackTrace();
-			return "unsuccessful";
 		} catch (ParseException e) {
 			e.printStackTrace();
-			return "unsuccessful";
 		}
-		return "succesful";
+		return loadedStickyEntryList;
 	}
 
 	public String addToSaveFile(List<StickyEntry> stickyEntryList) {
@@ -71,11 +78,4 @@ public class NoteProModel {
 
 	}
 
-	public List<StickyEntry> parseSticky(JSONObject sticky) {
-		List<StickyEntry> parsedStickyList = new ArrayList<>();
-		StickyEntry parsedSticky = new StickyEntry(0, "null", 0, 0, "null");
-
-		return parsedStickyList;
-
-	}
 }
