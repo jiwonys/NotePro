@@ -1,5 +1,8 @@
 package com.notePro.noteProArtifact;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,9 @@ public class NoteProController {
 	@Value("${spring.application.name}")
 	String applicationName;
 
+	@Autowired
+	List stickyEntryList = new ArrayList<StickyEntry>();
+	
 	NoteProModel noteProModel = new NoteProModel();
 	
 	@GetMapping("/")
@@ -41,7 +47,7 @@ public class NoteProController {
 		StickyEntry stick = new StickyEntry(1, "RED", 23, 42, "TEXT IS HERE");
 		//create a number after loading from text file
 		boolean flag = true;
-		if (noteProModel.save(stick).equals("successful")) {
+		if (noteProModel.addToSaveFile(stickyEntryList).equals("successful")) {
 			return "successful";
 		}else {
 			return "failed";
