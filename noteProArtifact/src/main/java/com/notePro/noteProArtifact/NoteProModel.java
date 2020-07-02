@@ -22,9 +22,8 @@ import org.json.simple.parser.ParseException;
 
 public class NoteProModel {
 	JSONArray stickyList = new JSONArray();
-	File file = new File(
-			"C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json");
 	
+
 	public List<StickyEntry> loadStickies() {
 		List<StickyEntry> loadedStickyEntryList = new ArrayList<StickyEntry>();
 		StickyEntry ent;
@@ -46,14 +45,12 @@ public class NoteProModel {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 		System.out.println("=============================");
 		stickyList.clear();
 		System.out.println("StickyList has been cleared");
-		if(file.delete())
-		System.out.println("original save file deleted");
 		System.out.println("=============================");
-		
+
 		return loadedStickyEntryList;
 	}
 
@@ -80,7 +77,6 @@ public class NoteProModel {
 	}
 
 	public String addToSaveFile(List<StickyEntry> stickyEntryList) {
-		
 
 		for (StickyEntry entry : stickyEntryList) {
 			JSONObject StickyDetail = new JSONObject();
@@ -97,8 +93,7 @@ public class NoteProModel {
 		}
 		try {
 			FileWriter fileWriter = new FileWriter(
-					"C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json",
-					true);
+					"C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json");
 
 			fileWriter.write(stickyList.toJSONString());
 			fileWriter.flush();
@@ -109,7 +104,6 @@ public class NoteProModel {
 		}
 		stickyList.clear();
 		return "successful";
-		
 
 	}
 
