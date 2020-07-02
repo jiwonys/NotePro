@@ -19,6 +19,7 @@ public class StickyEntry {
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
 		this.text = text;
+		this.uuid = uuid;
 		
 	}
 	public int getLayer() {
