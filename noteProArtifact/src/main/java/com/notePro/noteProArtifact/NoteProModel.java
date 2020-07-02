@@ -11,15 +11,19 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.apache.tomcat.jni.File;
+import java.io.File;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class NoteProModel {
 
+	boolean debug = false;
+	
 	public List<StickyEntry> load() {
 		JSONParser jsonParser = new JSONParser();
 		JSONObject obj;
@@ -51,22 +55,32 @@ public class NoteProModel {
 	}
 
 	public String addToSaveFile(List<StickyEntry> stickyEntryList) {
-
+		File file = new File("C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json");
+		file.delete();
+		
 		for (StickyEntry entry : stickyEntryList) {
 			String output = entry.getLayer() + "," + entry.getColor() + "," + entry.getX() + "," + entry.getY() + ","
 					+ entry.getText();
 
-			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("layer", entry.getLayer());
-			jsonObject.put("color", entry.getColor());
-			jsonObject.put("xCoord", entry.getX());
-			jsonObject.put("yCoord", entry.getY());
-			jsonObject.put("text", entry.getText());
+			JSONObject StickyDetail = new JSONObject();
+			StickyDetail.put("layer", entry.getLayer());
+			StickyDetail.put("color", entry.getColor());
+			StickyDetail.put("xCoord", entry.getX());
+			StickyDetail.put("yCoord", entry.getY());
+			StickyDetail.put("text", entry.getText());
+			StickyDetail.put("UUID", entry.getUUID());
+			JSONObject sticky = new JSONObject();
+			sticky.put("Sticky", StickyDetail);
+			JSONArray stickyList = new JSONArray();
+			stickyList.add(sticky);
+			
 			try {
 				FileWriter fileWriter = new FileWriter(
 						"C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json",
 						true);
-				fileWriter.write(jsonObject.toJSONString());
+				fileWriter.write(stickyList.toJSONString());
+				if(debug)System.out.println("Successful");
+				fileWriter.close();
 
 			} catch (IOException e) {
 				return "unsuccessful, error while saving";
