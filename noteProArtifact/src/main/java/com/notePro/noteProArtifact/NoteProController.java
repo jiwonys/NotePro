@@ -34,7 +34,7 @@ public class NoteProController {
 	public String createSticky(@PathVariable int layer, @PathVariable String color, @PathVariable int xCoord,
 			@PathVariable int yCoord, @PathVariable String text) {
 		String uuid = UUID.randomUUID().toString();
-		
+
 		StickyEntry stick = new StickyEntry(layer, color, xCoord, yCoord, text, uuid);
 		stickyEntryList.add(stick);
 		return "successful with the UUID:" + uuid;
@@ -79,12 +79,12 @@ public class NoteProController {
 	@GetMapping("/deleteAll")
 	@ResponseBody
 	public String deleteAll() {
-		boolean flag = true;
-		if (flag) {
-			return "successfully removed all stickyNotes";
-		} else {
-			return "failed";
-		}
+		stickyEntryList = noteProModel.deleteAllSticky();
+		System.out.println("+++++++++++++++++++++++");
+		System.out.println("deleted All StickyNotes");
+		System.out.println("+++++++++++++++++++++++");
+		return "successfully removed all stickyNotes";
+
 	}
 
 	@GetMapping("/load")
@@ -93,7 +93,7 @@ public class NoteProController {
 		stickyEntryList = noteProModel.loadStickies();
 		return "successful";
 	}
-	
+
 	@GetMapping("/save")
 	@ResponseBody
 	public String save() {
