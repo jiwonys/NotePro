@@ -1,0 +1,5 @@
+This project is an interactive sticky note board that can be used by small teams or groups,
+to keep some liveliness to boring reminders and priority lists.
+
+The backend will be coded entirely with Java using Spring Boot framework
+The frontend will be coded in Javascript using react, to consume the user input and send to backend to process
