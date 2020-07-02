@@ -33,7 +33,8 @@ public class NoteProController {
 	@ResponseBody
 	public String createSticky(@PathVariable int layer, @PathVariable String color, @PathVariable int xCoord,
 			@PathVariable int yCoord, @PathVariable String text) {
-		UUID uuid = UUID.randomUUID();
+		String uuid = UUID.randomUUID().toString();
+		
 		StickyEntry stick = new StickyEntry(layer, color, xCoord, yCoord, text, uuid);
 		stickyEntryList.add(stick);
 		return "successful with the UUID:" + uuid;

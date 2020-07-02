@@ -3,17 +3,17 @@ package com.notePro.noteProArtifact;
 import java.util.UUID;
 
 public class StickyEntry {
-//	public String save (int layer, String color, int x, int y, String text) {
+//	public String save (long layer, String color, long x, long y, String text) {
 //  serves the purpose of creation of json files
 	
-	private int layer;
+	private long layer;
 	private String color;
-	private int xCoord;
-	private int yCoord;
+	private long xCoord;
+	private long yCoord;
 	private String text;
-	private UUID uuid;
+	private String uuid;
 	
-	public StickyEntry(int layer, String color, int xCoord, int yCoord, String text, UUID uuid) {
+	public StickyEntry(long layer, String color, long xCoord, long yCoord, String text, String uuid) {
 		this.layer = layer;
 		this.color = color;
 		this.xCoord = xCoord;
@@ -22,16 +22,16 @@ public class StickyEntry {
 		this.uuid = uuid;
 		
 	}
-	public int getLayer() {
+	public long getLayer() {
 		return layer;
 	}
-	public void setLayer(int layer) {
+	public void setLayer(long layer) {
 		this.layer = layer;
 	}
-	public UUID getUUID() {
+	public String getUUID() {
 		return uuid;
 	}
-	public void setUUID(UUID uuid) {
+	public void setUUID(String uuid) {
 		this.uuid = uuid;
 	}
 	public String getColor() {
@@ -40,16 +40,16 @@ public class StickyEntry {
 	public void setColor(String color) {
 		this.color = color;
 	}
-	public int getX() {
+	public long getX() {
 		return xCoord;
 	}
-	public void setX(int xCoord) {
+	public void setX(long xCoord) {
 		this.xCoord = xCoord;
 	}
-	public int getY() {
+	public long getY() {
 		return yCoord;
 	}
-	public void setY(int yCoord) {
+	public void setY(long yCoord) {
 		this.yCoord = yCoord;
 	}
 	public String getText() {
