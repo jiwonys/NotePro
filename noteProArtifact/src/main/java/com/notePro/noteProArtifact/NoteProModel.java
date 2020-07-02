@@ -30,9 +30,13 @@ public class NoteProModel {
 		JSONParser jsonParser = new JSONParser();
 		try (FileReader reader = new FileReader(
 				"C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json")) {
-			
-			stickyList = (JSONArray) jsonParser.parse(reader);
-
+			File file = new File("C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json");
+			if (file.length() == 0) {
+				System.out.println("EMPTY list is loaded");
+				return loadedStickyEntryList;
+			} else {
+				stickyList = (JSONArray) jsonParser.parse(reader);
+			}
 			for (Object jsonObj : stickyList) {
 				ent = parseStickyObject((JSONObject) jsonObj);
 				loadedStickyEntryList.add(ent);
@@ -46,6 +50,7 @@ public class NoteProModel {
 			e.printStackTrace();
 		}
 		return loadedStickyEntryList;
+
 	}
 
 	private StickyEntry parseStickyObject(JSONObject sticky) {
@@ -67,7 +72,6 @@ public class NoteProModel {
 
 		return entry;
 
-		/// createSticky/{layer}/{color}/{xCoord}/{yCoord}/{text}
 	}
 
 	public String addToSaveFile(List<StickyEntry> stickyEntryList) {
