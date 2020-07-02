@@ -6,12 +6,12 @@ public class StickyEntry {
 //	public String save (int layer, String color, int x, int y, String text) {
 //  serves the purpose of creation of json files
 	
-	public int layer;
-	public String color;
-	public int xCoord;
-	public int yCoord;
-	public String text;
-	public UUID uuid;
+	private int layer;
+	private String color;
+	private int xCoord;
+	private int yCoord;
+	private String text;
+	private UUID uuid;
 	
 	public StickyEntry(int layer, String color, int xCoord, int yCoord, String text, UUID uuid) {
 		this.layer = layer;

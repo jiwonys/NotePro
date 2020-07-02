@@ -16,33 +16,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class NoteProController {
 
-	
 	@Value("${spring.application.name}")
 	String applicationName;
 
 	NoteProModel noteProModel = new NoteProModel();
-	List stickyEntryList = new ArrayList<StickyEntry>();
-	
+	List<StickyEntry> stickyEntryList = new ArrayList<StickyEntry>();
+
 	@GetMapping("/")
 	@ResponseBody
 	public String homePage(Model model) {
 		return "home";
 	}
 
-	// flag will be replaced with error checks in the future
-
-	@GetMapping("/load")
-	@ResponseBody
-	public String load() {
-		boolean flag = true;
-		noteProModel.load();
-		if (flag) {
-			return "successfully loaded";
-		} else {
-			return "failed";
-		}
-	}
-
+	// http://localhost:8080/createSticky/{layer}/{color}/{xCoord}/{yCoord}/{text}
 	@GetMapping("/createSticky/{layer}/{color}/{xCoord}/{yCoord}/{text}")
 	@ResponseBody
 	public String createSticky(@PathVariable int layer, @PathVariable String color, @PathVariable int xCoord,
@@ -50,10 +36,8 @@ public class NoteProController {
 		UUID uuid = UUID.randomUUID();
 		StickyEntry stick = new StickyEntry(layer, color, xCoord, yCoord, text, uuid);
 		stickyEntryList.add(stick);
-		// create a number after loading from text file
-		boolean flag = true;
-			return "successful with the UUID:" + uuid;
-		
+		return "successful with the UUID:" + uuid;
+
 	}
 
 	// http://localhost:8080/updateText/{stickNoteNumber}/{text}
@@ -101,6 +85,13 @@ public class NoteProController {
 			return "failed";
 		}
 	}
+
+	@GetMapping("/load")
+	@ResponseBody
+	public String load() {
+		stickyEntryList = noteProModel.loadStickies();
+		return "successful";
+	}
 	
 	@GetMapping("/save")
 	@ResponseBody
@@ -112,7 +103,7 @@ public class NoteProController {
 			return "failed";
 		}
 	}
-	
+
 	//
 
 }

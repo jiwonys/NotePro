@@ -22,28 +22,22 @@ import org.json.simple.parser.ParseException;
 
 public class NoteProModel {
 
-	boolean debug = false;
 	
-	public List<StickyEntry> load() {
-		JSONParser jsonParser = new JSONParser();
-		JSONObject obj;
+	public List<StickyEntry> loadStickies() {
 		ArrayList<JSONObject> json = new ArrayList<JSONObject>();
-		String line = null;
-
 		List<StickyEntry> loadedStickyEntryList = new ArrayList<StickyEntry>();
-
-		try {
-
-			FileReader reader = new FileReader("C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json");
-			BufferedReader bufferedReader = new BufferedReader(reader);
-			while ((line = bufferedReader.readLine()) != null) {
-				obj = (JSONObject) new JSONParser().parse(line);
-				json.add(obj);
-				System.out.println((String) obj.get("layer") + ":" + (String) obj.get("xCoord"));
+		StickyEntry ent;
+		
+		JSONParser jsonParser = new JSONParser();
+		try(FileReader reader = new FileReader("C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json")) {
+			Object obj = jsonParser.parse(reader);
+			JSONArray stickyList = (JSONArray) obj;
+			
+			for(Object jsonObj: stickyList) {
+				ent = parseStickyObject((JSONObject)jsonObj);
+				loadedStickyEntryList.add(ent);
 			}
-
-	        bufferedReader.close();         
-
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -51,7 +45,24 @@ public class NoteProModel {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		
 		return loadedStickyEntryList;
+	}
+	
+	private StickyEntry parseStickyObject(JSONObject sticky) {
+		JSONObject stickyObject = (JSONObject) sticky.get("Sticky");
+		
+		int layer = (int) stickyObject.get("layer");
+		String color = (String) stickyObject.get("color");
+		int xCoord = (int) stickyObject.get("xCoord");
+		int yCoord = (int) stickyObject.get("yCoord");
+		String text = (String) stickyObject.get("text");
+		UUID uuid = (UUID) stickyObject.get("UUID");
+		StickyEntry entry = new StickyEntry(layer, color, xCoord, yCoord, text, uuid);
+		return entry;
+		
+		
+		///createSticky/{layer}/{color}/{xCoord}/{yCoord}/{text}
 	}
 
 	public String addToSaveFile(List<StickyEntry> stickyEntryList) {
@@ -79,7 +90,6 @@ public class NoteProModel {
 						"C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json",
 						true);
 				fileWriter.write(stickyList.toJSONString());
-				if(debug)System.out.println("Successful");
 				fileWriter.close();
 
 			} catch (IOException e) {
