@@ -89,9 +89,10 @@ public class NoteProController {
 
 	@GetMapping("/load")
 	@ResponseBody
-	public String load() {
+	public List<StickyEntry> load() {
 		stickyEntryList = noteProModel.loadStickies();
-		return "successful";
+		return stickyEntryList;
+
 	}
 
 	@GetMapping("/save")
