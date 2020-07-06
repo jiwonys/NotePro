@@ -38,10 +38,15 @@ public class NoteProModel {
 			} else {
 				stickyList = (JSONArray) jsonParser.parse(reader);
 			}
+
+			System.out.println("============Loaded these===========");
 			for (Object jsonObj : stickyList) {
 				ent = parseStickyObject((JSONObject) jsonObj);
 				loadedStickyEntryList.add(ent);
+			System.out.println("---------------------------------");
 			}
+			System.out.println("=================================");
+
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -76,7 +81,7 @@ public class NoteProModel {
 	}
 
 	public String addToSaveFile(List<StickyEntry> stickyEntryList) {
-
+		stickyList.clear();
 		for (StickyEntry entry : stickyEntryList) {
 			JSONObject StickyDetail = new JSONObject();
 			StickyDetail.put("layer", entry.getLayer());
@@ -136,12 +141,13 @@ public class NoteProModel {
 		return stickList;
 	}
 
-	public List<StickyEntry> modelUpdatePos(List<StickyEntry> stickyEntryList, String uuid, int x, int y) {
+	public List<StickyEntry> modelUpdatePos(List<StickyEntry> stickyEntryList, String uuid, int xCoord, int yCoord) {
 		List<StickyEntry> stickList = new ArrayList<StickyEntry>();
 		for (StickyEntry stick : stickyEntryList) {
 			if (stick.getUUID().equals(uuid)) {
-				stick.setX(x);
-				stick.setY(y);
+				stick.setX(xCoord);
+				stick.setY(yCoord);
+				System.out.println("Sticky has been update with pos: {" + xCoord + "," + yCoord + "}");
 
 			}
 

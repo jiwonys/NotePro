@@ -45,19 +45,17 @@ public class NoteProController {
 	@GetMapping("/updateText/{uuid}/{text}")
 	@ResponseBody
 	public String updateText(@PathVariable String uuid, @PathVariable String text) {
-		boolean flag = true;
 		stickyEntryList = noteProModel.modelUpdateText(stickyEntryList, uuid, text);
-		return "successful with text: " + text + " || stickyNote uuid: " + uuid;
+		return "successful with text change: " + text + " || stickyNote uuid: " + uuid;
 
 	}
 
 	// http://localhost:8080/updatePosition/{stickNoteNumber}/{x}/{y}
-	@GetMapping("/updatePosition/{uuid}/{x}/{y}/")
+	@GetMapping("/updatePosition/{uuid}/{xCoord}/{yCoord}")
 	@ResponseBody
-	public String updatePosition(@PathVariable String uuid, @PathVariable int x, @PathVariable int y) {
-		boolean flag = true;
-		stickyEntryList = noteProModel.modelUpdatePos(stickyEntryList, uuid, x, y);
-		return "successfully repositioned to {" + x + "," + y + "} || stickyNote uuid: " + uuid;
+	public String updatePosition(@PathVariable String uuid, @PathVariable int xCoord, @PathVariable int yCoord) {
+		stickyEntryList = noteProModel.modelUpdatePos(stickyEntryList, uuid, xCoord, yCoord);
+		return "successfully repositioned to {" + xCoord + "," + yCoord + "} || stickyNote uuid: " + uuid;
 
 	}
 
@@ -84,6 +82,7 @@ public class NoteProController {
 	@ResponseBody
 	public List<StickyEntry> load() {
 		stickyEntryList = noteProModel.loadStickies();
+		
 		return stickyEntryList;
 
 	}
