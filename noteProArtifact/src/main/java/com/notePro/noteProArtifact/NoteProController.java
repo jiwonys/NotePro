@@ -42,38 +42,31 @@ public class NoteProController {
 	}
 
 	// http://localhost:8080/updateText/{stickNoteNumber}/{text}
-	@GetMapping("/updateText/{stickyNoteNum}/{text}")
+	@GetMapping("/updateText/{uuid}/{text}")
 	@ResponseBody
-	public String updateText(@PathVariable int stickyNoteNum, @PathVariable String text) {
+	public String updateText(@PathVariable String uuid, @PathVariable String text) {
 		boolean flag = true;
-		if (flag) {
-			return "successful with text: " + text + " || stickyNote number: " + stickyNoteNum;
-		} else {
-			return "failed";
-		}
+		stickyEntryList = noteProModel.modelUpdateText(stickyEntryList, uuid, text);
+		return "successful with text: " + text + " || stickyNote uuid: " + uuid;
+
 	}
 
 	// http://localhost:8080/updatePosition/{stickNoteNumber}/{x}/{y}
-	@GetMapping("/updatePosition/{stickyNoteNum}/{x}/{y}")
+	@GetMapping("/updatePosition/{uuid}/{x}/{y}/")
 	@ResponseBody
-	public String updatePosition(@PathVariable int stickyNoteNum, @PathVariable int x, @PathVariable int y) {
+	public String updatePosition(@PathVariable String uuid, @PathVariable int x, @PathVariable int y) {
 		boolean flag = true;
-		if (flag) {
-			return "successfully repositioned to {" + x + "," + y + "} || stickyNote number: " + stickyNoteNum;
-		} else {
-			return "failed";
-		}
+		stickyEntryList = noteProModel.modelUpdatePos(stickyEntryList, uuid, x, y);
+		return "successfully repositioned to {" + x + "," + y + "} || stickyNote uuid: " + uuid;
+
 	}
 
-	@GetMapping("/delete/{stickyNoteNum}")
+	@GetMapping("/delete/{uuid}")
 	@ResponseBody
-	public String deleteSticky(@PathVariable int stickyNoteNum) {
-		boolean flag = true;
-		if (flag) {
-			return "successfully removed stickyNote number: " + stickyNoteNum;
-		} else {
-			return "failed";
-		}
+	public String deleteSticky(@PathVariable String uuid) {
+		stickyEntryList = noteProModel.modelDeleteStick(stickyEntryList, uuid);
+		return "successfully removed stickyNote uuid: " + uuid;
+
 	}
 
 	@GetMapping("/deleteAll")
@@ -98,7 +91,6 @@ public class NoteProController {
 	@GetMapping("/save")
 	@ResponseBody
 	public String save() {
-		boolean flag = true;
 		if (noteProModel.addToSaveFile(stickyEntryList).equals("successful")) {
 			return "successfully saved all stickyNotes";
 		} else {

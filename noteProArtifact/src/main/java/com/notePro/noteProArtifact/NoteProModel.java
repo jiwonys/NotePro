@@ -30,7 +30,8 @@ public class NoteProModel {
 		JSONParser jsonParser = new JSONParser();
 		try (FileReader reader = new FileReader(
 				"C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json")) {
-			File file = new File("C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json");
+			File file = new File(
+					"C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json");
 			if (file.length() == 0) {
 				System.out.println("EMPTY list is loaded");
 				return loadedStickyEntryList;
@@ -119,6 +120,45 @@ public class NoteProModel {
 		List<StickyEntry> newList = new ArrayList<StickyEntry>();
 		return newList;
 
+	}
+
+	public List<StickyEntry> modelUpdateText(List<StickyEntry> stickyEntryList, String uuid, String text) {
+		List<StickyEntry> stickList = new ArrayList<StickyEntry>();
+		for (StickyEntry stick : stickyEntryList) {
+			
+			if (stick.getUUID().equals(uuid)) {
+				stick.setText(text);
+				System.out.println("Sticky has been update with text: " + text);
+			}
+			stickList.add(stick);
+
+		}
+		return stickList;
+	}
+
+	public List<StickyEntry> modelUpdatePos(List<StickyEntry> stickyEntryList, String uuid, int x, int y) {
+		List<StickyEntry> stickList = new ArrayList<StickyEntry>();
+		for (StickyEntry stick : stickyEntryList) {
+			if (stick.getUUID().equals(uuid)) {
+				stick.setX(x);
+				stick.setY(y);
+
+			}
+
+			stickList.add(stick);
+		}
+		return stickList;
+	}
+
+	public List<StickyEntry> modelDeleteStick(List<StickyEntry> stickyEntryList, String uuid) {
+		List<StickyEntry> stickList = new ArrayList<StickyEntry>();
+		for (int i = 0; i < stickyEntryList.size(); i++) {
+			if (stickyEntryList.get(i).getUUID().equals(uuid)) {
+				stickyEntryList.remove(i);
+			}
+			stickList.add(stickyEntryList.get(i));
+		}
+		return stickList;
 	}
 
 }
