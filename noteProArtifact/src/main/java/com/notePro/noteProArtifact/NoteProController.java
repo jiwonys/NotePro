@@ -1,5 +1,6 @@
 package com.notePro.noteProArtifact;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -18,6 +19,8 @@ public class NoteProController {
 
 	@Value("${spring.application.name}")
 	String applicationName;
+
+	String filePathName = "Map.json";
 
 	NoteProModel noteProModel = new NoteProModel();
 	List<StickyEntry> stickyEntryList = new ArrayList<StickyEntry>();
@@ -70,7 +73,7 @@ public class NoteProController {
 	@GetMapping("/deleteAll")
 	@ResponseBody
 	public String deleteAll() {
-		stickyEntryList = noteProModel.deleteAllSticky();
+		stickyEntryList = noteProModel.deleteAllSticky(filePathName);
 		System.out.println("+++++++++++++++++++++++");
 		System.out.println("deleted All StickyNotes");
 		System.out.println("+++++++++++++++++++++++");
@@ -80,8 +83,8 @@ public class NoteProController {
 
 	@GetMapping("/load")
 	@ResponseBody
-	public List<StickyEntry> load() {
-		stickyEntryList = noteProModel.loadStickies();
+	public List<StickyEntry> load() throws IOException {
+		stickyEntryList = noteProModel.loadStickies(filePathName);
 		
 		return stickyEntryList;
 
@@ -90,13 +93,10 @@ public class NoteProController {
 	@GetMapping("/save")
 	@ResponseBody
 	public String save() {
-		if (noteProModel.addToSaveFile(stickyEntryList).equals("successful")) {
+		if (noteProModel.addToSaveFile(stickyEntryList, filePathName).equals("successful")) {
 			return "successfully saved all stickyNotes";
 		} else {
 			return "failed";
 		}
 	}
-
-	//
-
 }

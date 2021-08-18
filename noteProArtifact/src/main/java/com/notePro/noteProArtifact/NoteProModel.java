@@ -19,19 +19,25 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Value;
 
 public class NoteProModel {
+
+
+
 	JSONArray stickyList = new JSONArray();
 
-	public List<StickyEntry> loadStickies() {
+	public List<StickyEntry> loadStickies(String filePathName) throws IOException {
 		List<StickyEntry> loadedStickyEntryList = new ArrayList<StickyEntry>();
 		StickyEntry ent;
 
 		JSONParser jsonParser = new JSONParser();
-		try (FileReader reader = new FileReader(
-				"C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json")) {
+		File file1 = new File(filePathName);
+		file1.createNewFile();
+		System.out.println("created a new file for map");
+		try (FileReader reader = new FileReader(file1)) {
 			File file = new File(
-					"C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json");
+					filePathName);
 			if (file.length() == 0) {
 				System.out.println("EMPTY list is loaded");
 				return loadedStickyEntryList;
@@ -80,7 +86,7 @@ public class NoteProModel {
 
 	}
 
-	public String addToSaveFile(List<StickyEntry> stickyEntryList) {
+	public String addToSaveFile(List<StickyEntry> stickyEntryList, String filePathName) {
 		stickyList.clear();
 		for (StickyEntry entry : stickyEntryList) {
 			JSONObject StickyDetail = new JSONObject();
@@ -97,7 +103,7 @@ public class NoteProModel {
 		}
 		try {
 			FileWriter fileWriter = new FileWriter(
-					"C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json");
+					filePathName);
 
 			fileWriter.write(stickyList.toJSONString());
 			fileWriter.flush();
@@ -110,11 +116,11 @@ public class NoteProModel {
 
 	}
 
-	public List<StickyEntry> deleteAllSticky() {
+	public List<StickyEntry> deleteAllSticky(String filePathName) {
 		stickyList.clear();
 		try {
 			FileWriter fileWriter = new FileWriter(
-					"C:/Users/jiwon/Desktop/Desktop/eclipse-workspace/NotePro/noteProArtifact/src/main/resources/Map.json");
+					filePathName);
 
 			fileWriter.write("");
 			fileWriter.flush();
@@ -130,7 +136,7 @@ public class NoteProModel {
 	public List<StickyEntry> modelUpdateText(List<StickyEntry> stickyEntryList, String uuid, String text) {
 		List<StickyEntry> stickList = new ArrayList<StickyEntry>();
 		for (StickyEntry stick : stickyEntryList) {
-			
+
 			if (stick.getUUID().equals(uuid)) {
 				stick.setText(text);
 				System.out.println("Sticky has been update with text: " + text);
